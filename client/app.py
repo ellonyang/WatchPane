@@ -1,4 +1,3 @@
-import datetime
 import pathlib
 import time
 
@@ -27,7 +26,6 @@ def get_system():
 def run_script():
     file = pathlib.Path(setting.script)
     print("系统: ", get_system(), "执行: ", setting.script)
-
     if file.is_file() and file.exists():
         if get_system() == "windows":
             os.system(f"start {file}")
@@ -50,14 +48,11 @@ def run_script():
 def run():
     api = Api()
     content = api.get_by_name(setting.device_name)
-    if content["status"] == "failed":
-        # 执行shell文件
-        api = Api()
-        content["last_execute_at"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        api.update_watch(content)
-        run_script()
-        time.sleep(60 * 5)
-
+    if content["status"] in {"FAILED","UNCHECK"}:
+        if int(content["failed_count"]) >= 1:
+            # 执行shell文件
+            run_script()
+            time.sleep(60 * 5)
 
 def main():
     try:
