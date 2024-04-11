@@ -1,0 +1,4 @@
+device_name = "zzj03"
+interval = 120
+script = "run.sh"
+api = "http://27.25.157.152:8003"

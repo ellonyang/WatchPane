@@ -1,0 +1,1 @@
+./launch_binary_mac --device_id=ad66804c-8f80-44a7-897a-1f93cc767c78 --user_id=1e12ee18-c469-4eea-bade-37558d135fb3 --operating_system="macOS" --usegpus=false --device_name=zzj03
