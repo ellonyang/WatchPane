@@ -116,7 +116,7 @@ async def run_watch(url, watch_data, context: BrowserContext):
             if "failed" in text:
                 state = "failed"
 
-            print(f"{device_content}抓取到的文本:{text.split(':')}")
+            print(f"{device_content}抓取到的文本:{text}")
             if state is None:
                 logger.error("未知状态，请人工检查")
                 continue

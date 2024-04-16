@@ -1,4 +1,4 @@
-check_interval = 60
-api = "http://127.0.0.1:8003"
-async_page = 2
+check_interval = 80
+api = "http://27.25.157.152:8003"
+async_page = 4
 watch_url = "https://cloud.io.net/explorer/devices/"

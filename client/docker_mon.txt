@@ -1,0 +1,13 @@
+import docker
+import time
+
+client = docker.from_env()
+
+try:
+    while True:
+        containers = client.containers.list()
+        running_containers = [c for c in containers if c.status == 'running']
+        print(f"当前运行的容器数量: {len(running_containers)}")
+        time.sleep(10)  # 每10秒检查一次
+except KeyboardInterrupt:
+    print("监控结束。")

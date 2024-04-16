@@ -4,7 +4,7 @@ import datetime
 import schedule
 import os
 import subprocess
-
+import docker
 from loguru import logger
 
 from api import Api
@@ -46,16 +46,23 @@ def run_script():
 
 
 def run():
-#    api = Api()
-#    content = api.get_by_name(setting.device_name)
-#    if content["status"] in {"FAILED","UNCHECK"}:
-#        if int(content["failed_count"]) >= 1:
-            # 执行shell文件
-    print("start run time at:  ",datetime.datetime.now())
-    time.sleep(60 * 60 * 4)
-    run_script()    
-    print("end run time at:  ",datetime.datetime.now())
-
+    api = Api()
+    content = api.get_by_name(setting.device_name)
+    client = docker.from_env()
+    if content["status"] in {"FAILED","UNCHECK"}:
+        if int(content["failed_count"]) >= 1:
+            # 执行shell文件     
+            print("App2 start run time at:  ",datetime.datetime.now())
+            run_script() 
+            time.sleep(60 * 10)
+            print("end run time at:  ",datetime.datetime.now())
+    containers = client.containers.list()
+    running_containers = [c for c in containers if c.status == 'running']
+    print(f"查检docker容器数量，当前运行的容器数量: {len(running_containers)}")
+    if len(running_containers) > 1:
+       
+        run_script() 
+        time.sleep(60 * 1)    
 def main():
     try:
         run()
@@ -69,4 +76,4 @@ if __name__ == '__main__':
     schedule.run_all()
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        time.sleep(15)
